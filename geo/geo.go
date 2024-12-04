@@ -17,10 +17,13 @@ type CityPopulationResponse struct {
 	Error bool `json:"error"`
 }
 
+var ErrNoCity = errors.New("NOCITY")
+var ErrNo200 = errors.New("NO200")
+
 func GetCurrentLocation(city string) (*GeoData, error) {
 	if city != "" {
 		if !checkCity(city) {
-			panic(city)
+			return nil, ErrNoCity
 		}
 		return &GeoData{
 			City: city,
@@ -33,7 +36,7 @@ func GetCurrentLocation(city string) (*GeoData, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
-		return nil, errors.New("Status code is not 200")
+		return nil, ErrNo200
 	}
 
 	body, err := io.ReadAll(resp.Body)

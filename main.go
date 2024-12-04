@@ -15,6 +15,9 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	weatherData := weather.Get(*geoData, *format)
+	weatherData, err := weather.Get(*geoData, *format)
+	if err != nil {
+		panic(err.Error())
+	}
 	fmt.Println(weatherData)
 }
