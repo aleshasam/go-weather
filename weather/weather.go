@@ -24,6 +24,7 @@ func Get(geoData geo.GeoData, format int) string {
 		fmt.Println(err.Error())
 		return ""
 	}
+	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
